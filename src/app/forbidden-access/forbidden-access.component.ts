@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '../services/app.service';
 
 @Component({
   selector: 'app-forbidden-access',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForbiddenAccessComponent implements OnInit {
 
-  constructor() { }
+  constructor(private appService : AppService) { }
 
   ngOnInit(): void {
+    this.appService.clearStorage();
   }
 
 }

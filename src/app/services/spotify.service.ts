@@ -62,8 +62,6 @@ export class SpotifyService implements OnInit {
         return map;
     }, {});
 
-    console.log(params);
-
     //this means the user could not be authenticated
     if (params.error) {
       this.appService.logout();

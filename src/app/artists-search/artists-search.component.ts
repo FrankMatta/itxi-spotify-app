@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Artist } from '../models/artist.model';
 import { Artists } from '../models/artists.model';
 import { SpotifyService } from '../services/spotify.service';
@@ -15,30 +16,34 @@ export class ArtistsSearchComponent implements OnInit {
   errorMessage: string;
   previousUrl: string;
   currentUrl: string;
-  jazra : string = '';
+  jazra: string = '';
 
-  @ViewChild('userSearchInput') userSearchInput : ElementRef;
+  @ViewChild('userSearchInput') userSearchInput: ElementRef;
 
-  constructor(private spotifyService: SpotifyService) {}
+  constructor(private spotifyService: SpotifyService, private router: Router) {}
 
   ngOnInit(): void {
     this.spotifyService.getAccessToken();
-    
   }
 
   getArtists(): void {
     this.clearError();
     const userInput = this.userSearchInput.nativeElement.value;
 
-    this.spotifyService
-      .getArtists(userInput)
-      .subscribe(({ artists }: Artists) => {
-        console.log(artists);
+    this.spotifyService.getArtists(userInput).subscribe(
+      ({ artists }: Artists) => {
         if (artists.total <= 0) {
           this.showError('No result matched your search');
         }
         this.artists = artists.items;
-      });
+      },
+      (error) => {
+        if (error.status === 403) {
+          this.router.navigate(['/forbidden']);
+          return;
+        }
+      }
+    );
   }
 
   test(event: Event) {
@@ -56,9 +61,9 @@ export class ArtistsSearchComponent implements OnInit {
   }
 
   getRating(popularity) {
-    let rating = Math.ceil(popularity * 5 /100);
+    let rating = Math.ceil((popularity * 5) / 100);
 
-    if(rating === 0) {
+    if (rating === 0) {
       rating = 1;
     }
 
