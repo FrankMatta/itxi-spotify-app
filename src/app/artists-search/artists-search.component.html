@@ -1,0 +1,54 @@
+<!-- search field -->
+<div class="d-flex justify-content-center">
+  <div class="form-group">
+    <input
+      #userSearchInput
+      class="form-control"
+      (keyup.enter)="getArtists()"
+      (keyup)="clearError()"
+      (input)="test($event)"
+      [(ngModel)]="jazra"
+      type="text"
+      placeholder="Search for an artist..."
+    />
+  </div>
+</div>
+
+<!-- error message  -->
+<div class="d-flex align-items-center justify-content-center">
+  <div class="row mt-5">
+    <p *ngIf="isError">{{ errorMessage }}</p>
+  </div>
+</div>
+
+<!-- artists -->
+<ng-container>
+  <div class="artists-container">
+    <div
+      class="card"
+      *ngFor="let artist of artists"
+      [routerLink]="['/albums']"
+      [queryParams]="{ id: artist.id }"
+    >
+      <img
+        class="card-img-top"
+        [src]="
+          artist.images.length > 0 ? artist.images[0]?.url : defaultImageSource
+        "
+        alt="Artist Image"
+      />
+      <div class="card-body">
+        <h5 class="card-title">{{ artist.name }}</h5>
+        <p class="card-text">
+          {{ artist.followers.total | number: "1.0" }} followers
+        </p>
+        <span
+          class="text-muted"
+          *ngFor="let number of getRating(artist.popularity)"
+        >
+          <img src="assets/images/star.png" alt="star" class="star" />
+        </span>
+      </div>
+    </div>
+  </div>
+</ng-container>

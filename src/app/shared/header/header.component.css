@@ -1,0 +1,10 @@
+.title {
+    padding: 20px 40px;
+    background: lightgrey;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
