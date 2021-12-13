@@ -17,6 +17,7 @@ export class SigninSpotifyComponent implements OnInit {
 
   redirectToShopify() {
     const url: string = this.spotifyService.createAuthorizeURL();
+    console.log(url)
     window.location.href = url;
   }
 

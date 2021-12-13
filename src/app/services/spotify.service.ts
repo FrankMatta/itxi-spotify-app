@@ -3,10 +3,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AppService } from './app.service';
-import { map } from 'rxjs/operators';
-import { TokenResponse } from '../models/token-response.model';
-import { Subject } from 'rxjs/internal/Subject';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { map } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +33,8 @@ export class SpotifyService implements OnInit {
       client_id: this.CLIENT_ID,
       redirect_uri: `${window.location.origin}`,
       scope: encodeURIComponent(this.SCOPES.join(' ')),
-      response_type: 'code'
+      state: "uSt@R@NdomstrINg",
+      response_type: 'token'
     });
     return `${this.SPOTIFY_AUTHORIZE_URL}?${params.toString()}`;
   }
@@ -54,45 +52,26 @@ export class SpotifyService implements OnInit {
       return;
     }
     
-    this.appService.code = this.activatedRoute.snapshot.queryParams.code;
-    const code = this.appService.code;
+    const fragment = this.activatedRoute.snapshot.fragment;
+
+    const parts = fragment.split('&');
+
+    const params : any = parts.reduce((map, part) => {
+        const pieces = part.split('=');
+        map[pieces[0]] = pieces[1];
+        return map;
+    }, {});
+
+    console.log(params);
 
     //this means the user could not be authenticated
-    if (!code) {
+    if (params.error) {
       this.appService.logout();
       return;
     }
 
-    //btoa to turn it into a buffer
-    const bufferAuth: string =
-      'Basic ' + btoa(this.CLIENT_ID + ':' + this.CLIENT_SECRET);
+    localStorage.setItem('access_token', params.access_token);
 
-    const authHeader: HttpHeaders = new HttpHeaders()
-      .set('Authorization', bufferAuth)
-      .set('Content-type', 'application/x-www-form-urlencoded');
-
-    const body = new URLSearchParams();
-    body.set('grant_type', 'authorization_code');
-    body.set('code', code);
-    body.set('redirect_uri', window.origin);
-
-    //getting access token, on error the user will be redirected back to the login page
-    this.httpClient
-      .post<TokenResponse>(this.SPOTIFY_TOKEN_URL, body.toString(), {
-        headers: authHeader,
-      })
-      .subscribe(
-        (data) => {
-          console.log('tokenz', data);
-          this.appService.setAccessTokens(
-            data.access_token,
-            data.refresh_token
-          );
-        },
-        (error) => {
-          this.router.navigate(['signin']);
-        }
-      );
   }
 
   authorizeUser(){ // TODO make this return true or false for the guard
