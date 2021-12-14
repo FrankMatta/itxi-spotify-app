@@ -3,14 +3,13 @@
   <div class="form-group">
     <input
       #userSearchInput
-      class="form-control"
       (keyup.enter)="getArtists()"
       (keyup)="clearError()"
-      (input)="test($event)"
-      [(ngModel)]="jazra"
+      class="form-control"
       type="text"
       placeholder="Search for an artist..."
     />
+    <img class="search-icon" src="assets/images/search-icon.png" alt="">
   </div>
 </div>
 

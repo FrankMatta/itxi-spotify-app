@@ -2,11 +2,14 @@
     height: 80vh;
 }
 
-.btn-login {
+.btn-container {
     position: relative;
+}
+
+.btn-login {
     text-align: center;
     width: 25vw;
-    min-width: 250px;
+    min-width: 270px;
 }
 
 .spotify-logo {

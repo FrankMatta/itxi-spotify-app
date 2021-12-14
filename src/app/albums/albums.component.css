@@ -17,3 +17,12 @@
 .no-space {
     line-height: 0.5;
 } 
+
+div.bottom-left {
+    
+    
+}
+
+div.bottom-left > .card-text {
+    margin-bottom: 0;
+}

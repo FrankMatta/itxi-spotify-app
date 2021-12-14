@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Artist } from '../models/artist.model';
 import { Artists } from '../models/artists.model';
@@ -14,11 +14,8 @@ export class ArtistsSearchComponent implements OnInit {
   defaultImageSource: string = 'assets/images/spotify-logo-with-text.jpg';
   isError = false;
   errorMessage: string;
-  previousUrl: string;
-  currentUrl: string;
-  jazra: string = '';
 
-  @ViewChild('userSearchInput') userSearchInput: ElementRef;
+  @ViewChild('userSearchInput', {static: true}) userSearchInput: ElementRef;
 
   constructor(private spotifyService: SpotifyService, private router: Router) {}
 
@@ -44,10 +41,6 @@ export class ArtistsSearchComponent implements OnInit {
         }
       }
     );
-  }
-
-  test(event: Event) {
-    const userInput = (event.target as HTMLInputElement).value.trim();
   }
 
   clearError(): void {

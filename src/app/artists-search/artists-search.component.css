@@ -1,3 +1,24 @@
+
+.form-control {
+    width: 30vw;
+    min-width: 270px;
+    font-size: 1.5rem;
+}
+
+.form-group {
+    position: relative;
+    margin-top: 2rem
+
+}
+
+.search-icon {
+    width: 1.8rem;
+    position: absolute;
+    top: 8px;
+    right: 5px;
+}
+
+
 .artists-container {
     width: 100%;
     display: flex;
@@ -18,13 +39,9 @@
     object-fit: cover;
 }
 
-.form-control {
-    width: 30vw;
-    min-width: 250px;
-    font-size: 1.5rem;
-}
 
 .star {
     width: 2rem;
     margin: 1rem 2px 0px 2px;
 }
+

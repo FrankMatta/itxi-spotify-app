@@ -3,7 +3,9 @@ import { Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AppService } from './app.service';
-import { map } from 'rxjs/operators'
+import { catchError, map } from 'rxjs/operators'
+import { Observable } from 'rxjs';
+import { Artists } from '../models/artists.model';
 
 @Injectable({
   providedIn: 'root',
@@ -72,15 +74,6 @@ export class SpotifyService implements OnInit {
 
   }
 
-  authorizeUser(){ // TODO make this return true or false for the guard
-    this.setPayload();
-    this.httpClient.get('https://api.spotify.com/v1/me', {headers: this.authHeader}).subscribe((userData) => {
-
-    }, (error)=>{
-      // this.router.navigate(['/forbidden']);
-    })
-  }
-
   getArtists(name: string) {
     this.setPayload();
 
@@ -104,6 +97,7 @@ export class SpotifyService implements OnInit {
         )
       );
   }
+
 
   getAlbums() {
     this.setPayload();
