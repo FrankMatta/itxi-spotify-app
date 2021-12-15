@@ -39,6 +39,9 @@ export class ArtistsSearchComponent implements OnInit {
           this.router.navigate(['/forbidden']);
           return;
         }
+        
+        this.router.navigate(['/signin']);
+
       }
     );
   }
