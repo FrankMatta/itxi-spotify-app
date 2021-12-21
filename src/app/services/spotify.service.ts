@@ -56,6 +56,11 @@ export class SpotifyService implements OnInit {
     
     const fragment = this.activatedRoute.snapshot.fragment;
 
+    if(!fragment) {
+      this.appService.logout();
+      return;
+    }
+
     const parts = fragment.split('&');
 
     const params : any = parts.reduce((map, part) => {
