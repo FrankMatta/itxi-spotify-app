@@ -36,7 +36,8 @@ export class SpotifyService implements OnInit {
       redirect_uri: `${window.location.origin}`,
       scope: encodeURIComponent(this.SCOPES.join(' ')),
       state: "uSt@R@NdomstrINg",
-      response_type: 'token'
+      response_type: 'token',
+      show_dialog: 'true'
     });
     return `${this.SPOTIFY_AUTHORIZE_URL}?${params.toString()}`;
   }
